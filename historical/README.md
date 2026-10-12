@@ -1,0 +1,1 @@
+Original metadata reports accuracy 0.8156424581. This is a historical result from preprocessing before splitting and is not a result for the corrected pipeline. Old model/encoder binaries are deliberately excluded to prevent mixing incompatible artifacts. The original notebook reports 891 records, with 712 training and 179 test records. Retraining is required.
