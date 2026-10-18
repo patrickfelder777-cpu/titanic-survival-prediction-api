@@ -1,0 +1,40 @@
+
+name: Titanic API CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest httpx
+
+      - name: Download Titanic training dataset
+        run: |
+          mkdir -p data
+          curl --fail --location --retry 3 \
+            https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv \
+            -o data/titanic.csv
+
+      - name: Train model
+        run: |
+          python -m training.train_model --data data/titanic.csv
+
+      - name: Run API tests
+        run: |
+          python -m pytest tests/test_api.py -v
